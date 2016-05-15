@@ -1,0 +1,12 @@
+*bin 
+*obj 
+*suo 
+*.user 
+*.tmp 
+*.TMP 
+*resharper* 
+*Resharper* 
+*ReSharper* 
+*.Load 
+*.gpState
+*.~m2

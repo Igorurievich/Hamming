@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>StringCompare</name>
+    </assembly>
+    <members>
+        <member name="T:StringCompare.Algorithms.Hamming.HammingAlgorithm">
+            <summary>
+            Only for equals length string.
+            Hamming distance between two strings of equal length is the number of positions at which the corresponding symbols are different.
+            
+            About https://en.wikipedia.org/wiki/Hamming_distance
+            </summary>
+        </member>
+        <member name="M:StringCompare.Algorithms.Hamming.HammingAlgorithm.GetCompareResult(System.String,System.String)">
+            <summary>
+            Measure the difference
+            </summary>
+            <param name="source">source string</param>
+            <param name="target">target string</param>
+            <returns>-1 if not equal lengths, 0 is different, 1 is equals</returns>
+        </member>
+        <member name="M:StringCompare.Algorithms.Hamming.HammingAlgorithmExtension.CompareHamming(System.String,System.String)">
+            <summary>
+            Measure the difference
+            </summary>
+            <param name="source">source string</param>
+            <param name="target">target string</param>
+            <returns>0 is different, 1 is equals</returns>
+        </member>
+        <member name="T:StringCompare.Algorithms.Levenshtein.LevenshteinAlgorithm">
+            <summary>
+            About https://en.wikipedia.org/wiki/Edit_distance
+            </summary>
+        </member>
+        <member name="M:StringCompare.Algorithms.Levenshtein.LevenshteinAlgorithm.GetCompareResult(System.String,System.String)">
+            <summary>
+            Measure the difference
+            </summary>
+            <param name="source">source string</param>
+            <param name="target">target string</param>
+            <returns>0 is different, 1 is equals</returns>
+        </member>
+        <member name="M:StringCompare.Algorithms.Levenshtein.LevenshteinAlgorithmExtension.CompareLevenshtein(System.String,System.String)">
+            <summary>
+            Measure the difference
+            </summary>
+            <param name="source">source string</param>
+            <param name="target">target string</param>
+            <returns>0 is different, 1 is equals</returns>
+        </member>
+        <member name="T:StringCompare.Algorithms.Tanimoto.TanimotoAlgorithm">
+            <summary>
+            Tanimoto Coefficient uses the ratio of the intersecting set to the union set as the measure of similarity. 
+            
+            About http://mines.humanoriented.com/classes/2010/fall/csci568/portfolio_exports/sphilip/tani.html
+            </summary>
+        </member>
+        <member name="M:StringCompare.Algorithms.Tanimoto.TanimotoAlgorithm.GetCompareResult(System.String,System.String)">
+            <summary>
+            Measure the difference
+            </summary>
+            <param name="source">source string</param>
+            <param name="target">target string</param>
+            <returns>0 is different, 1 is equals, >1 if target string has more matches</returns>
+        </member>
+        <member name="M:StringCompare.Algorithms.Tanimoto.TanimotoAlgorithmExtension.CompareTanimoto(System.String,System.String)">
+            <summary>
+            Measure the difference
+            </summary>
+            <param name="source">source string</param>
+            <param name="target">target string</param>
+            <returns>0 is different, 1 is equals, >1 if target string has more matches</returns>
+        </member>
+    </members>
+</doc>
