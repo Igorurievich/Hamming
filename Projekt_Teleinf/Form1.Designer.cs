@@ -40,7 +40,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.tb_Hammings_code = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
-            this.numericUpDown1 = new System.Windows.Forms.NumericUpDown();
+            this.nupd_first_error = new System.Windows.Forms.NumericUpDown();
             this.btnRecalc = new System.Windows.Forms.Button();
             this.tb_Decoded_Message_and_CRC = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
@@ -48,11 +48,17 @@
             this.label9 = new System.Windows.Forms.Label();
             this.tb_Hammings_with_errors = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.tb_crc_end = new System.Windows.Forms.TextBox();
             this.label11 = new System.Windows.Forms.Label();
             this.tb_Binary_message = new System.Windows.Forms.TextBox();
             this.label12 = new System.Windows.Forms.Label();
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).BeginInit();
+            this.tb_syndrome = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.tb_error_syndrome = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.nupd_second_error = new System.Windows.Forms.NumericUpDown();
+            ((System.ComponentModel.ISupportInitialize)(this.nupd_first_error)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nupd_second_error)).BeginInit();
             this.SuspendLayout();
             // 
             // tbMsg
@@ -66,7 +72,6 @@
             this.tbMsg.Size = new System.Drawing.Size(557, 25);
             this.tbMsg.TabIndex = 0;
             this.tbMsg.Tag = "";
-            this.tbMsg.TextChanged += new System.EventHandler(this.tbMsg_TextChanged);
             // 
             // cmbCRC
             // 
@@ -90,7 +95,6 @@
             this.crclabel.Size = new System.Drawing.Size(32, 13);
             this.crclabel.TabIndex = 2;
             this.crclabel.Text = "CRC:";
-            this.crclabel.Click += new System.EventHandler(this.label1_Click);
             // 
             // label1
             // 
@@ -180,34 +184,35 @@
             this.tb_Hammings_code.Name = "tb_Hammings_code";
             this.tb_Hammings_code.ReadOnly = true;
             this.tb_Hammings_code.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tb_Hammings_code.Size = new System.Drawing.Size(693, 25);
+            this.tb_Hammings_code.Size = new System.Drawing.Size(532, 25);
             this.tb_Hammings_code.TabIndex = 10;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 310);
+            this.label4.Location = new System.Drawing.Point(12, 299);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(71, 13);
             this.label4.TabIndex = 12;
             this.label4.Text = "Error position:";
             // 
-            // numericUpDown1
+            // nupd_first_error
             // 
-            this.numericUpDown1.Location = new System.Drawing.Point(91, 308);
-            this.numericUpDown1.Name = "numericUpDown1";
-            this.numericUpDown1.Size = new System.Drawing.Size(41, 20);
-            this.numericUpDown1.TabIndex = 18;
+            this.nupd_first_error.Location = new System.Drawing.Point(91, 297);
+            this.nupd_first_error.Name = "nupd_first_error";
+            this.nupd_first_error.Size = new System.Drawing.Size(41, 20);
+            this.nupd_first_error.TabIndex = 18;
             // 
             // btnRecalc
             // 
             this.btnRecalc.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnRecalc.Location = new System.Drawing.Point(630, 305);
+            this.btnRecalc.Location = new System.Drawing.Point(630, 294);
             this.btnRecalc.Name = "btnRecalc";
             this.btnRecalc.Size = new System.Drawing.Size(75, 23);
             this.btnRecalc.TabIndex = 21;
             this.btnRecalc.Text = "Recalculate";
             this.btnRecalc.UseVisualStyleBackColor = true;
+            this.btnRecalc.Click += new System.EventHandler(this.btnRecalc_Click);
             // 
             // tb_Decoded_Message_and_CRC
             // 
@@ -216,6 +221,7 @@
             this.tb_Decoded_Message_and_CRC.Location = new System.Drawing.Point(12, 457);
             this.tb_Decoded_Message_and_CRC.Multiline = true;
             this.tb_Decoded_Message_and_CRC.Name = "tb_Decoded_Message_and_CRC";
+            this.tb_Decoded_Message_and_CRC.ReadOnly = true;
             this.tb_Decoded_Message_and_CRC.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.tb_Decoded_Message_and_CRC.Size = new System.Drawing.Size(693, 25);
             this.tb_Decoded_Message_and_CRC.TabIndex = 27;
@@ -238,6 +244,7 @@
             this.tb_Hamming_after_checking.Location = new System.Drawing.Point(12, 404);
             this.tb_Hamming_after_checking.Multiline = true;
             this.tb_Hamming_after_checking.Name = "tb_Hamming_after_checking";
+            this.tb_Hamming_after_checking.ReadOnly = true;
             this.tb_Hamming_after_checking.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.tb_Hamming_after_checking.Size = new System.Drawing.Size(693, 25);
             this.tb_Hamming_after_checking.TabIndex = 25;
@@ -260,8 +267,9 @@
             this.tb_Hammings_with_errors.Location = new System.Drawing.Point(12, 352);
             this.tb_Hammings_with_errors.Multiline = true;
             this.tb_Hammings_with_errors.Name = "tb_Hammings_with_errors";
+            this.tb_Hammings_with_errors.ReadOnly = true;
             this.tb_Hammings_with_errors.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.tb_Hammings_with_errors.Size = new System.Drawing.Size(693, 25);
+            this.tb_Hammings_with_errors.Size = new System.Drawing.Size(532, 25);
             this.tb_Hammings_with_errors.TabIndex = 23;
             // 
             // label10
@@ -275,16 +283,17 @@
             this.label10.TabIndex = 22;
             this.label10.Text = "Hamming\'s code with errors:";
             // 
-            // textBox1
+            // tb_crc_end
             // 
-            this.textBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.tb_crc_end.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.textBox1.Location = new System.Drawing.Point(12, 509);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.textBox1.Size = new System.Drawing.Size(693, 25);
-            this.textBox1.TabIndex = 29;
+            this.tb_crc_end.Location = new System.Drawing.Point(12, 509);
+            this.tb_crc_end.Multiline = true;
+            this.tb_crc_end.Name = "tb_crc_end";
+            this.tb_crc_end.ReadOnly = true;
+            this.tb_crc_end.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tb_crc_end.Size = new System.Drawing.Size(693, 25);
+            this.tb_crc_end.TabIndex = 29;
             // 
             // label11
             // 
@@ -320,14 +329,68 @@
             this.label12.TabIndex = 31;
             this.label12.Text = "Message in binary form:";
             // 
+            // tb_syndrome
+            // 
+            this.tb_syndrome.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_syndrome.Location = new System.Drawing.Point(550, 253);
+            this.tb_syndrome.Multiline = true;
+            this.tb_syndrome.Name = "tb_syndrome";
+            this.tb_syndrome.ReadOnly = true;
+            this.tb_syndrome.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tb_syndrome.Size = new System.Drawing.Size(155, 25);
+            this.tb_syndrome.TabIndex = 33;
+            // 
+            // label5
+            // 
+            this.label5.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(547, 237);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(115, 13);
+            this.label5.TabIndex = 34;
+            this.label5.Text = "Control bits(Syndrome):";
+            // 
+            // tb_error_syndrome
+            // 
+            this.tb_error_syndrome.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.tb_error_syndrome.Location = new System.Drawing.Point(550, 352);
+            this.tb_error_syndrome.Multiline = true;
+            this.tb_error_syndrome.Name = "tb_error_syndrome";
+            this.tb_error_syndrome.ReadOnly = true;
+            this.tb_error_syndrome.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.tb_error_syndrome.Size = new System.Drawing.Size(155, 25);
+            this.tb_error_syndrome.TabIndex = 35;
+            // 
+            // label6
+            // 
+            this.label6.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(547, 331);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(115, 13);
+            this.label6.TabIndex = 36;
+            this.label6.Text = "Control bits(Syndrome):";
+            // 
+            // nupd_second_error
+            // 
+            this.nupd_second_error.Location = new System.Drawing.Point(138, 297);
+            this.nupd_second_error.Name = "nupd_second_error";
+            this.nupd_second_error.Size = new System.Drawing.Size(41, 20);
+            this.nupd_second_error.TabIndex = 37;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(717, 555);
+            this.Controls.Add(this.nupd_second_error);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.tb_error_syndrome);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.tb_syndrome);
             this.Controls.Add(this.tb_Binary_message);
             this.Controls.Add(this.label12);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.tb_crc_end);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.tb_Decoded_Message_and_CRC);
             this.Controls.Add(this.label8);
@@ -336,7 +399,7 @@
             this.Controls.Add(this.tb_Hammings_with_errors);
             this.Controls.Add(this.label10);
             this.Controls.Add(this.btnRecalc);
-            this.Controls.Add(this.numericUpDown1);
+            this.Controls.Add(this.nupd_first_error);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.tb_Hammings_code);
             this.Controls.Add(this.label3);
@@ -352,7 +415,8 @@
             this.Name = "Form1";
             this.Text = "Hamming coding -  Bodia proj.";
             this.Load += new System.EventHandler(this.Form1_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.numericUpDown1)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nupd_first_error)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.nupd_second_error)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -372,7 +436,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox tb_Hammings_code;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.NumericUpDown numericUpDown1;
+        private System.Windows.Forms.NumericUpDown nupd_first_error;
         private System.Windows.Forms.Button btnRecalc;
         private System.Windows.Forms.TextBox tb_Decoded_Message_and_CRC;
         private System.Windows.Forms.Label label8;
@@ -380,10 +444,15 @@
         private System.Windows.Forms.Label label9;
         private System.Windows.Forms.TextBox tb_Hammings_with_errors;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox tb_crc_end;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.TextBox tb_Binary_message;
         private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.TextBox tb_syndrome;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox tb_error_syndrome;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.NumericUpDown nupd_second_error;
     }
 }
 
