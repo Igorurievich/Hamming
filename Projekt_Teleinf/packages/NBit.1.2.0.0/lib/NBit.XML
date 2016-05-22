@@ -1,0 +1,277 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NBit</name>
+    </assembly>
+    <members>
+        <member name="T:NBit.Crc">
+            <summary>
+            Computes CRCs.
+            </summary>
+        </member>
+        <member name="M:NBit.Crc.Custom(System.Int32,System.UInt32,NBit.CrcFormat,System.Boolean,System.Boolean)">
+            <summary>
+            Creates a custom CRC calculator.
+            </summary>
+            <param name="bits">The number of bits in the CRC.</param>
+            <param name="polynomial">The CRC polynomial.</param>
+            <param name="format">The CRC format.</param>
+            <param name="presetToOnes">If true, the initial value will be all ones. Otherwise, it will be all zeros.</param>
+            <param name="postinvert">If true, the final computed value will be inverted.</param>
+            <returns>The CRC calculator.</returns>
+        </member>
+        <member name="M:NBit.Crc.Custom(System.Int32,System.UInt32,NBit.CrcFormat,System.UInt32,System.UInt32)">
+            <summary>
+            Creates a custom CRC calculator.
+            </summary>
+            <param name="bits">The number of bits in the CRC.</param>
+            <param name="polynomial">The CRC polynomial.</param>
+            <param name="format">The CRC format.</param>
+            <param name="preset">The initial value of the CRC.</param>
+            <param name="postinvert">A mask of bits to flip when determining the final value.</param>
+            <returns>The CRC calculator.</returns>
+        </member>
+        <member name="M:NBit.Crc.Begin">
+            <summary>
+            Returns the initial value of the CRC. Begin the computation using this value.
+            </summary>
+            <returns>The initial value of the CRC.</returns>
+        </member>
+        <member name="M:NBit.Crc.Next(System.UInt32,System.Byte)">
+            <summary>
+            Sends 8 bits through the CRC.
+            </summary>
+            <param name="crc">The current CRC value.</param>
+            <param name="byte">The byte to send through the CRC.</param>
+            <returns>The modified CRC value.</returns>
+        </member>
+        <member name="M:NBit.Crc.Next(System.UInt32,System.UInt32,System.Int32)">
+            <summary>
+            Sends a specified number of bits through the CRC.
+            </summary>
+            <param name="crc">The current CRC value.</param>
+            <param name="byte">The bits to send through the CRC.</param>
+            <param name="bits">The number of bits to send.</param>
+            <returns>The modified CRC value.</returns>
+        </member>
+        <member name="M:NBit.Crc.Resume(System.UInt32)">
+            <summary>
+            Undoes the End operation. An exclusive OR is done between the final CRC value and the post-invert bit mask.
+            </summary>
+            <param name="crc">The final CRC value.</param>
+            <returns>The continuable CRC value.</returns>
+        </member>
+        <member name="M:NBit.Crc.End(System.UInt32)">
+            <summary>
+            Finishes the CRC computation. An exclusive OR is done between the current CRC value and the post-invert bit mask.
+            </summary>
+            <param name="crc">The current CRC value.</param>
+            <returns>The final CRC value.</returns>
+        </member>
+        <member name="M:NBit.Crc.Next(System.UInt32,System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Sends bits from a byte array through the CRC.
+            </summary>
+            <param name="crc">The current CRC value.</param>
+            <param name="buffer">The array of bytes.</param>
+            <param name="offset">The index of the first byte in <paramref name="buffer"/> to read.</param>
+            <param name="count">The number of bytes to read.</param>
+            <returns>The modified CRC.</returns>
+        </member>
+        <member name="M:NBit.Crc.Next(System.UInt32,System.Byte[],System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Sends bits from a byte array through the CRC.
+            </summary>
+            <param name="crc">The current CRC value.</param>
+            <param name="buffer">The array of bytes.</param>
+            <param name="offset">The index of the first byte in <paramref name="buffer"/> to read.</param>
+            <param name="count">The number of bytes to read.</param>
+            <param name="bits">The number of bits per byte to send.</param>
+            <returns>The modified CRC.</returns>
+        </member>
+        <member name="M:NBit.Crc.Compute(System.Byte[])">
+            <summary>
+            Computes a CRC from a byte array.
+            </summary>
+            <param name="buffer">The bytes to compute the CRC from.</param>
+            <returns>The final CRC.</returns>
+        </member>
+        <member name="M:NBit.Crc.Compute(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            Computes a CRC from a byte array.
+            </summary>
+            <param name="buffer">The bytes to compute the CRC from.</param>
+            <param name="offset">The index of the first byte in <paramref name="buffer"/> to read.</param>
+            <param name="count">The number of bytes to read.</param>
+            <returns>The final CRC.</returns>
+        </member>
+        <member name="M:NBit.Crc.Compute(System.Byte[],System.Int32,System.Int32,System.Int32)">
+            <summary>
+            Computes a CRC from a byte array.
+            </summary>
+            <param name="buffer">The bytes to compute the CRC from.</param>
+            <param name="offset">The index of the first byte in <paramref name="buffer"/> to read.</param>
+            <param name="count">The number of bytes to read.</param>
+            <param name="bits">The number of bits of the byte to use.</param>
+            <returns>The final CRC.</returns>
+        </member>
+        <member name="M:NBit.Crc.Compute(System.String)">
+            <summary>
+            Computes a CRC from the UTF8-encoded bytes of a string of text.
+            </summary>
+            <param name="text">The text to compute the CRC from.</param>
+            <returns>The final CRC.</returns>
+        </member>
+        <member name="M:NBit.Crc.Compute(System.String,System.Text.Encoding)">
+            <summary>
+            Computes a CRC from the encoded bytes of a string of text.
+            </summary>
+            <param name="text">The text to compute the CRC from.</param>
+            <param name="encoding">The encoding to use.</param>
+            <returns>The final CRC.</returns>
+        </member>
+        <member name="P:NBit.Crc.Parity">
+            <summary>
+            Simple parity (odd or even bit count).
+            </summary>
+        </member>
+        <member name="P:NBit.Crc.Crc5Usb">
+            <summary>
+            The CRC for USB token packets.
+            </summary>
+        </member>
+        <member name="P:NBit.Crc.Crc8OneWire">
+            <summary>
+            The CRC for the 1-Wire protocol.
+            </summary>
+        </member>
+        <member name="P:NBit.Crc.Crc16">
+            <summary>
+            The Modbus CRC, initialized with all zeros.
+            </summary>
+        </member>
+        <member name="P:NBit.Crc.Crc14Kangaroo">
+            <summary>
+            The CRC for the Kangaroo motion controller.
+            </summary>
+        </member>
+        <member name="P:NBit.Crc.Crc15Can">
+            <summary>
+            The CRC for CAN.
+            </summary>
+        </member>
+        <member name="P:NBit.Crc.Crc16Ccitt">
+            <summary>
+            The CCITT CRC, initialized with all ones.
+            </summary>
+        </member>
+        <member name="P:NBit.Crc.Crc16Modbus">
+            <summary>
+            The CRC for the Modbus PLC protocol.
+            </summary>
+        </member>
+        <member name="P:NBit.Crc.Crc16XModem">
+            <summary>
+            The CCITT CRC, initialized with all zeros.
+            </summary>
+        </member>
+        <member name="P:NBit.Crc.Crc32">
+            <summary>
+            Ordinary CRC-32.
+            </summary>
+        </member>
+        <member name="P:NBit.Crc.Crc32Castagnoli">
+            <summary>
+            CRC-32C, used in SSE4.
+            </summary>
+        </member>
+        <member name="T:NBit.CrcFormat">
+            <summary>
+            Specifies the format of the CRC.
+            </summary>
+        </member>
+        <member name="F:NBit.CrcFormat.LsbFirst">
+            <summary>
+            The least significant bit of each byte is sent through the CRC first.
+            </summary>
+        </member>
+        <member name="F:NBit.CrcFormat.MsbFirst">
+            <summary>
+            The most significant bit of each byte is sent through the CRC first.
+            </summary>
+        </member>
+        <member name="F:NBit.CrcFormat.KoopmanPolynomial">
+            <summary>
+            The constant term and the highest order polynomial term are always one for CRCs.
+            A 16-bit CRC, for example, will always have x^16 and x^0 terms. It's a matter
+            of convention which is left out, and more commonly it is the highest-order term.
+            If the polynomial is in Koopman notation, the lowest-order term is dropped instead.
+            This corresponds to "Reversed Reciprocal" entries on Wikipedia's CRC page.
+            </summary>
+        </member>
+        <member name="F:NBit.CrcFormat.ReversedPolynomial">
+            <summary>
+            The order of bits in the CRC polynomial is reversed.
+            Higher order terms correspond to less significant bits.
+            This corresponds to "Reversed" entries on Wikipedia's CRC page.
+            </summary>
+        </member>
+        <member name="T:NBit.BitMathExtensions">
+            <summary>
+            Provides bit manipulation extension methods for unsigned integers.
+            Many of these algorithms can be found at Bit Twiddling Hacks: http://graphics.stanford.edu/~seander/bithacks.html
+            </summary>
+        </member>
+        <member name="M:NBit.BitMathExtensions.CountBits(System.UInt32)">
+            <summary>
+            Counts the number of one bits in a value.
+            </summary>
+            <param name="value">The value to count the bits of.</param>
+            <returns>The number of one bits.</returns>
+        </member>
+        <member name="M:NBit.BitMathExtensions.CountTrailingZeros(System.UInt32)">
+            <summary>
+            Counts the number of trailing zeros in a value.
+            </summary>
+            <param name="value">The value to count the trailing zeros of.</param>
+            <returns>The number of trailing zeros.</returns>
+        </member>
+        <member name="M:NBit.BitMathExtensions.IsOddParity(System.UInt32)">
+            <summary>
+            Computes the parity of a value.
+            </summary>
+            <param name="value">The value to compute the parity of.</param>
+            <returns>True if the parity is odd, or false if it is even.</returns>
+        </member>
+        <member name="M:NBit.BitMathExtensions.IsPowerOf2(System.UInt32)">
+            <summary>
+            Checks if a value is a power of two.
+            </summary>
+            <param name="value">The value to check.</param>
+            <returns>True if the value is a power of two. Zero is not considered a power of two.</returns>
+        </member>
+        <member name="M:NBit.BitMathExtensions.ReverseBits(System.UInt32)">
+            <summary>
+            Reverses the bits of a value.
+            </summary>
+            <param name="value">The value to reverse the bits of.</param>
+            <returns>The reversed bits.</returns>
+        </member>
+        <member name="M:NBit.BitMathExtensions.ReverseBits(System.UInt32,System.Int32)">
+            <summary>
+            Masks and reverses the specified number of bits of a value.
+            </summary>
+            <param name="value">The value to reverse the bits of.</param>
+            <param name="bits">The number of bits to reverse.</param>
+            <returns>The masked and reversed bits.</returns>
+            <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="bits"/> must be between 0 and 32.</exception>
+        </member>
+        <member name="M:NBit.BitMathExtensions.RoundUpToPowerOf2(System.UInt32)">
+            <summary>
+            Rounds a value up to the nearest power of two.
+            </summary>
+            <param name="value">The value to round up.</param>
+            <returns>The rounded-up value. Values greater than 2^31 overflow to 0.</returns>
+        </member>
+    </members>
+</doc>

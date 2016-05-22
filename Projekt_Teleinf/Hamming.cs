@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,22 +7,32 @@ using System.Threading.Tasks;
 
 namespace Projekt_Surtel
 {
+    static class Extentions
+    {
+        static private StringBuilder ReverseStringImpl(string s, int pos, StringBuilder sb)
+        {
+            return (s.Length <= --pos || pos < 0) ? sb : ReverseStringImpl(s, pos, sb.Append(s[pos]));
+        }
+
+        static public string Reverse(this string s)
+        {
+            return ReverseStringImpl(s, s.Length, new StringBuilder()).ToString();
+        }
+    }
     class HammingCode
     {
-        public string[,] matrix;
-        public string[,] matrixsecond;
+        public string[,] Matrix { get; set; }
+        //public string[,] matrixsecond;
         public int controlBitsCount;
-        public int[] controlBitsPosition;
-        public string mask;
-        public string secmask;
-        public string[] BinaryNumbers;
-        public string[] BinaryNumbersSecond;
-        public string msg;
-        public string err_msg;
-        public int errorPosition_1;
-        public int errorPoisition_2;
-        public int first;
-        public int second;
+        public int[] ControlBitsPosition { get; set; }
+        public string Syndrome { get; set; }
+        //public string secmask;
+        public string[] BinaryNumbers { get; set; }
+        //public string[] BinaryNumbersSecond;
+        public StringBuilder Message { get; set; }
+        public int[] MarkPositions { get; set; }
+        public int ErrorPosition { get; set; }
+
 
         public HammingCode(string msg)
         {
@@ -32,144 +43,143 @@ namespace Projekt_Surtel
         {
         }
 
-        public string GetMessage(string msg)
+        /// <summary>
+        /// Get the message for encoding.
+        /// </summary>
+        /// <param name="message"></param>
+        public void GetMessage(string message)
         {
-            //msg = Console.ReadLine();
-            byte[] buff = Encoding.ASCII.GetBytes(msg);
+            Message = new StringBuilder();
+            byte[] buff = Encoding.ASCII.GetBytes(message);
             string[] msgtmp = buff.Select(x => Convert.ToString(x, 2).PadLeft(8, '0')).ToArray();
-
-            msg = String.Empty;
-            foreach (var item in msgtmp)
-            {
-                //foreach (var itemIn in item)
-                //{
-                //    Console.Write(itemIn + " ");
-                //}
-                msg += item;
-            }
-            //Console.WriteLine();
-            return msg;
+            Message.Append(string.Join(null, msgtmp));
         }
-        public void CalculateControlBitsCount(string msg)
+        /// <summary>
+        /// Calculate control bits count from length the message.
+        /// </summary>
+        public void CalculateControlBitsCount()
         {
-            if (msg.Length == 1)
+            if (Message.Length == 1)
             {
                 this.controlBitsCount = 2;
             }
             else
             {
-                controlBitsCount = Convert.ToInt16(Math.Ceiling(Math.Log(Convert.ToDouble(msg.Length + 5), 2)));
+                controlBitsCount = Convert.ToInt16(Math.Ceiling(Math.Log(Convert.ToDouble(Message.Length + 5), 2)));
             }
         }
-        public void CalculateControlBitsPosition(int controlBitsCount)
+        /// <summary>
+        /// Calculate the positions for control bits.
+        /// </summary>
+        public void CalculateControlBitsPosition()
         {
-            controlBitsPosition = new int[controlBitsCount];
+            ControlBitsPosition = new int[this.controlBitsCount];
             for (int i = 0; i <= controlBitsCount - 1; i++)
             {
-                controlBitsPosition[i] = Convert.ToInt32(Math.Pow(Convert.ToDouble(2), Convert.ToDouble(i)));
+                ControlBitsPosition[i] = Convert.ToInt32(Math.Pow(Convert.ToDouble(2), Convert.ToDouble(i)));
             }
         }
-        public string InsertControlBitsInPosition(string msg)
+        /// <summary>
+        /// Inserting control zeros in message. 
+        /// </summary>
+        public void InsertControlBitsInPosition()
         {
-            for (int i = 0; i < controlBitsPosition.Length; i++)
+            for (int i = 0; i < controlBitsCount; i++)
             {
-                msg = msg.Insert(controlBitsPosition[i] - 1, "0");
+                    Message.Insert(ControlBitsPosition[i] - 1, '0');
             }
-            return msg;
         }
-        public void InitializeOrdinalDigits(string[] BinaryNumbers, string msg)
+        /// <summary>
+        /// Initialize digits in binary represenation
+        /// </summary>
+        public void InitializeOrdinalDigits()
         {
-            
-            for (int j = 0; j < msg.Length; j++)
+            BinaryNumbers = new string[Message.Length];
+            for (int j = 0; j < Message.Length; j++)
             {
                 BinaryNumbers[j] = Convert.ToString(j + 1, 2).PadLeft(controlBitsCount, '0');
-                char[] inputarray = BinaryNumbers[j].ToCharArray();
-                Array.Reverse(inputarray);
-                BinaryNumbers[j] = new string(inputarray);
+                char[] InputArray = BinaryNumbers[j].ToCharArray();
+                Array.Reverse(InputArray);
+                BinaryNumbers[j] = new string(InputArray);
             }
-            this.msg = msg;
         }
-        public void InitializeMatrix(string[] BinNum, string[,] matr)
+        /// <summary>
+        /// Initialize H-Matrix
+        /// </summary>
+        public void InitializeMatrix()
         {
-            for (int i = 0; i < msg.Length; i++)
+            Matrix = new string[controlBitsCount,Message.Length];
+            for (int i = 0; i < Message.Length; i++)
             {
-                var tmp = BinNum[i].ToCharArray();
                 for (int j = 0; j < controlBitsCount; j++)
                 {
-                    matr.SetValue(tmp[j].ToString(), j, i);
+                    Matrix.SetValue(BinaryNumbers[i].ToString(), j, i);
                 }
             }
         }
-        public string CalculateControlBits(string message, string[,] mtrx)
+        /// <summary>
+        /// Need more time
+        /// </summary>
+        public void CalculateControlBits()
         {
+            //for (int i = 0; i < controlBitsCount; i++)
+            //{
+            //    int ProductsSumm = 0;
+            //    for (int j = 0; j < Message.Length; j++)
+            //    {
+            //        ProductsSumm += Int32.Parse(Message[j].ToString()) * Int32.Parse(Matrix.GetValue(i,j).ToString());
+            //    }
+            //    ProductsSumm %= 2;
+            //    Syndrome += ProductsSumm.ToString();
+            //}
             string msk = string.Empty;
             for (int i = 0; i < controlBitsCount; i++)
             {
                 int flag = 0;
-                for (int j = 0; j < msg.Length; j++)
+                for (int j = 0; j < Message.Length; j++)
                 {
-                    flag += Int32.Parse(message[j].ToString()) * Int32.Parse(mtrx.GetValue(i, j).ToString());
+                    flag += Int32.Parse(Message[j].ToString()) * Int32.Parse(Matrix.GetValue(i, j).ToString());
                 }
                 flag = flag % 2;
                 msk += flag.ToString();
             }
-            return msk;
         }
-        public string CodeMessage(string msg)
+        /// <summary>
+        /// Insert control bits in message is delivered in advance of the zeros.
+        /// </summary>
+        public void CodeMessage()
         {
-            for (int i = 0; i < controlBitsPosition.Length; i++)
+            for (int i = 0; i < ControlBitsPosition.Length; i++)
             {
-                msg = msg.Remove(controlBitsPosition[i] - 1, 1);
-                msg = msg.Insert(controlBitsPosition[i] - 1, mask[i].ToString());
+                Message.Replace("0", Syndrome[i].ToString(), ControlBitsPosition[i] - 1, 1);
             }
-            //foreach (var item in msg)
-            //{
-            //    Console.Write(item + " ");
-            //}
-            return msg;
         }
-        public string InsertError(params int[] markPosition)
+        public void InsertError(params int[] markPosition)
         {
-            var tmp = msg.ToList();
-            msg = string.Empty;
             for (int i = 0; i < markPosition.Length; i++)
             {
-                if (tmp[markPosition[i]] == '0')
+                if (Message[MarkPositions[i]] == '0')
                 {
-                    tmp[markPosition[i]] = '1';
+                    Message[MarkPositions[i]] = '1';
                 }
-                else if (tmp[markPosition[i]] == '1')
+                else
                 {
-                    tmp[markPosition[i]] = '0';
-                }
-                msg = string.Empty;
-                foreach (var item in tmp)
-                {
-                    msg += item;
+                    Message[MarkPositions[i]] = '0';
                 }
             }
-            return msg;
         }
-        public string FixError(string msg, int errorPosition)
+        public void FixError()
         {
-            var tmp = msg.ToList();
-            if (msg[errorPosition] == '0')
+            if (Message[ErrorPosition] == '0')
             {
-                tmp[errorPosition] = '1';
+                Message[ErrorPosition] = '1';
             }
-            else if (msg[errorPosition] == '1')
+            else
             {
-                tmp[errorPosition] = '0';
+                Message[ErrorPosition] = '0';
             }
-            msg = string.Empty;
-            foreach (var item in tmp)
-            {
-                msg += item;
-            }
-
-            return msg;
         }
-        static bool Is_exp(int n)
+        public bool Is_exp(int n)
         {
             //if (n == 0)
             //{
@@ -180,33 +190,41 @@ namespace Projekt_Surtel
                 return (n & (n - 1)) == 0;
             }
         }
-        public string DecodeMessage(string mess)
+        public void DecodeMessage()
         {
-            List<char> msg = new List<char>();
-            //for (int i = 0; i < controlBitsPosition.Length; i++)
-            //{
-            //    //mess = mess.Remove(controlBitsPosition[i]-1, 1);
-            //    msg[i] = mess[i];
-            //}
+            for (int i = 0; i < ControlBitsPosition.Length; i++)
+            {
+                Message.Remove(ControlBitsPosition[i] - 1, 1);
+            }
 
-            for (int i = 0; i <= mess.Length; i++)
-            {
-                if (!Is_exp(i))
-                {
-                    if (i == 0)
-                    {
-                        msg.Add(mess[i]);
-                        continue;
-                    }
-                    msg.Add(mess[i - 1]);
-                }
-            }
-            string tmp = string.Empty;
-            foreach (var item in msg)
-            {
-                tmp += item.ToString();
-            }
-            return tmp;
+
+
+
+            //List<char> msg = new List<char>();
+            ////for (int i = 0; i < controlBitsPosition.Length; i++)
+            ////{
+            ////    //mess = mess.Remove(controlBitsPosition[i]-1, 1);
+            ////    msg[i] = mess[i];
+            ////}
+
+            //for (int i = 0; i <= mess.Length; i++)
+            //{
+            //    if (!Is_exp(i))
+            //    {
+            //        if (i == 0)
+            //        {
+            //            msg.Add(mess[i]);
+            //            continue;
+            //        }
+            //        msg.Add(mess[i - 1]);
+            //    }
+            //}
+            //string tmp = string.Empty;
+            //foreach (var item in msg)
+            //{
+            //    tmp += item.ToString();
+            //}
+            //return tmp;
         }
     }
 }
