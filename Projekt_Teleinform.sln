@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Projekt_Teleinf", "Projekt_Surtel\Projekt_Teleinf.csproj", "{17B6BB36-AC2F-46BA-86EF-322821365EEF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Projekt_Teleinf", "Projekt_Teleinf\Projekt_Teleinf.csproj", "{17B6BB36-AC2F-46BA-86EF-322821365EEF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
